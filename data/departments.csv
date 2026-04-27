@@ -1,9 +1,0 @@
-dept,dept_id,head,floor,location,budget,employees_count,established_year,division,remote_policy
-Sales,D001,Martin,4,New York,1200000,14,2010,Revenue,Hybrid
-Marketing,D002,Amelia,5,London,950000,11,2012,Growth,Hybrid
-Engineering,D003,Oliver,10,Berlin,2500000,20,2008,Product,Flexible
-Support,D004,Emma,3,Austin,680000,8,2015,Service,Hybrid
-Finance,D005,Sophia,7,Sydney,1100000,9,2005,Operations,Office
-Legal,D006,Charlotte,12,Tokyo,780000,6,2000,Compliance,Office
-HR,D007,Noah,2,Toronto,520000,7,2011,People,Flexible
-Operations,D008,Liam,6,San Francisco,900000,10,2009,Logistics,Hybrid
