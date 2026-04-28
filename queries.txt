@@ -1,0 +1,42 @@
+-- =====================================================================
+-- Fuzzy RDB Engine: Unified Master Test Script (Candidates & Jobs)
+-- =====================================================================
+
+-- 1. SETUP: Load Tables
+LOAD data/candidates.csv AS Candidates
+LOAD data/jobs.csv AS Jobs
+
+-- 2. SETUP: Define Membership Functions
+-- Senior: Ramps up 5-10, flat 10-20, ramps down 20-25
+DEFINE TERM Candidates.experience_yrs AS senior USING trapezoidal(5, 10, 20, 25)
+
+-- High Culture: Peaks at 85
+DEFINE TERM Candidates.culture_fit AS high USING triangular(70, 85, 100)
+
+-- =====================================================================
+-- 3. QUERY SUITE
+-- =====================================================================
+
+-- Test 1: Hedge (Squaring)
+SELECT * FROM Candidates WHERE experience_yrs IS very senior
+
+-- Test 2: Soft Margins (Dynamic Trapezoid)
+SELECT * FROM Candidates WHERE culture_fit BETWEEN 80 AND 100 SOFTNESS 0.2
+
+-- Test 3: Fuzzy Joins (Linear Decay)
+JOIN Candidates WITH Jobs ON aptitude_score TOLERANCE 10
+
+-- Test 4: Fuzzy Aggregation (Weighted Proportions)
+GROUPBY Candidates ON experience_yrs TERMS senior AGGREGATE culture_fit FUNCS weighted_avg
+
+-- Test 5: Logical OR (S-Norm Max)
+-- Note: Execute individual SELECTs to cache, then apply UNION
+SELECT * FROM Candidates WHERE experience_yrs IS senior
+SELECT * FROM Candidates WHERE culture_fit IS high
+UNION Candidates AND Candidates_result ON name
+
+-- Test 6: Defuzzification (Center of Gravity)
+DEFUZZ Candidates.experience_yrs IS senior METHOD centroid
+
+-- Test 7: Classical Comparison
+COMPARE Candidates FUZZY experience_yrs IS senior AGAINST experience_yrs >= 10
